@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Delegates
 {
-    class Program
+    static class Program
     {
+        public delegate bool FilterFunction(int a);
+
         delegate void GetMessage(); // 1. Объявляем делегат
         delegate int Operation(int x, int y);
         static void del01()
@@ -59,12 +61,12 @@ namespace Delegates
             account.Withdraw(150);
         }
 
-        static List<int> Filter(List<int> list)
+        static List<int> Filter(this IEnumerable<int> list)
         {
             List<int> result = new List<int>();
             foreach (var item in list)
             {
-                Console.WriteLine(item);
+                //Console.WriteLine(item);
                 if(item % 2 == 0)
                 {
                     result.Add(item);
@@ -72,12 +74,90 @@ namespace Delegates
             }
             return result;
         }
+        static List<int> FilterThree(this IEnumerable<int> list)
+        {
+            List<int> result = new List<int>();
+            foreach (var item in list)
+            {
+                //Console.WriteLine(item);
+                if (item % 3 == 0)
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+
+        static List<int> CommonItems(this IEnumerable<int> list1, IEnumerable<int> list2)
+        {
+            List<int> result = new List<int>();
+            foreach (var item1 in list1)
+            {
+                //foreach (var item2 in list2)
+                //{
+                //    if (item1 == item2)
+                //    {
+                //        result.Add(item1);
+                //    }
+                //}
+                if (list2.Contains(item1))
+                {
+                    result.Add(item1);
+                }
+            }
+            return result;
+        }
+
+        static bool IsEven(int item)
+        {
+            return item % 2 == 0;
+        }
+        static bool IsEven3(int item)
+        {
+            return item % 3 == 0;
+        }
+
+        static List<int> FilterWithDelegate(this IEnumerable<int> list, FilterFunction filter)
+        {
+            List<int> result = new List<int>();
+            foreach (var item in list)
+            {
+                if (filter(item))
+                {
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+
         static void del_01()
         {
             List<int> list = new List<int> { 1, 2, 3, 4, 5, 6 };
             var result = Filter(list);
-            IEnumarableExtension.Print(result);
+            //IEnumarableExtension.Print(result);
             list.Print();      //  это возможно после установки this в  public static void Print(this List<int> list) в class IEnumarableExtension
+            Console.WriteLine("==============");
+            result.Print();
+            Console.WriteLine("==============");
+            var result3 = FilterThree(list);
+            result3.Print();
+            Console.WriteLine("==============");
+            var resultCommon = CommonItems(result, result3);
+            resultCommon.Print();
+            Console.WriteLine("==============");
+            Console.WriteLine("=======And Now With Delegate!!! ======");
+            FilterFunction f = IsEven;
+            var resultDel01 = list.FilterWithDelegate(f);
+            resultDel01.Print();
+            Console.WriteLine("==============");
+            FilterFunction f3 = IsEven3;
+            var resultDel02 = list.FilterWithDelegate(f3);
+            resultDel02.Print();
+            Console.WriteLine("==============");
+            Console.WriteLine("==============");
+            Console.WriteLine("==============");
+            Console.WriteLine("==============");
+
         }
 
         static void Main(string[] args)
