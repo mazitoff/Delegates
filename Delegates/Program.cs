@@ -164,7 +164,7 @@ namespace Delegates
             //Action<int>
 
         }
-
+        //
         static bool ActionWithList(List<int> list)
         {
             bool result = true;
