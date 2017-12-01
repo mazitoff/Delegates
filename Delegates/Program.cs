@@ -153,11 +153,47 @@ namespace Delegates
             FilterFunction f3 = IsEven3;
             var resultDel02 = list.FilterWithDelegate(f3);
             resultDel02.Print();
+            Console.WriteLine("=========И можно анонимно== (анонимные функции) ===");
+            FilterFunction f444 = delegate (int item)
+            {
+                return item % 2 == 0;
+            };
             Console.WriteLine("==============");
             Console.WriteLine("==============");
             Console.WriteLine("==============");
-            Console.WriteLine("==============");
+            //Action<int>
 
+        }
+
+        static bool ActionWithList(List<int> list)
+        {
+            bool result = true;
+            foreach (var item in list)
+            {
+                if(item > 10)
+                {
+                    result = false;
+                }
+            }
+            return result;
+        }
+        //static bool All(List<int> list, FilterFunction filter)
+        //{
+        //    bool result = true;
+        //    foreach (var item in list)
+        //    {
+        //        if (filter == true)
+        //        {
+        //            result = false;
+        //        }
+        //    }
+        //    return result;
+        //}
+        static void del_0789()
+        {
+            List<int> list = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 8, 45, 67, 3221, 6};
+            bool res = ActionWithList(list);
+            Console.WriteLine(res);
         }
 
         static void Main(string[] args)
@@ -170,9 +206,11 @@ namespace Delegates
             Console.WriteLine("*****************************************************");
             //del04();
             Console.WriteLine("*****************************************************");
-            del_01();
+            //del_01();
             Console.WriteLine("*****************************************************");
+
             Console.WriteLine("*****************************************************");
+            del_0789();
             Console.WriteLine("*****************************************************");
             Console.WriteLine("*****************************************************");
             Console.WriteLine("*****************************************************");
